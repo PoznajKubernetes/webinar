@@ -1,0 +1,12 @@
+doctl kubernetes cluster create poznajkubernetes \
+  --region ams3 \
+  --size s-2vcpu-4gb \
+  --count 3
+
+doctl kubernetes cluster kubeconfig save poznajkubernetes
+
+kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+kubectl port-forward -n weave "$(kubectl get -n weave pod --selector=weave-scope-component=app -o jsonpath='{.items..metadata.name}')" 4040
+
+doctl kubernetes cluster delete poznajkubernetes
