@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pets-cat
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: canary.gp.kaluzny.io
+    http:
+      paths:
+      - backend:
+          serviceName: pets-cat
+          servicePort: 8080
+      - backend:
+          serviceName: pets-app
+          servicePort: 80
+        path: /web
