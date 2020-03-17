@@ -1,0 +1,5 @@
+curl localhost/pet
+ruby check.rb
+curl  -H "dog-lover: always" localhost/pet
+curl  -b dog_lover=always http://localhost/pet
+

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pkad
+spec:
+  replicas: 6
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: pkad
+  template:
+    metadata:
+      labels:
+        app: pkad
+    spec:
+      containers:
+      - name: pkad
+        image: lukaszkaluzny/pk-update-demo
+        resources: {}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: environment
+          value: v2
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 5
+          failureThreshold: 3

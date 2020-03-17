@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Pet App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <style>
+        body,html{
+    height:100%;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <form class="col-12">
+                <div class="form-group" style="text-align:center">
+                    <div class="btn-group" role="group" aria-label="Basic example" style="text-align:center">
+                        <button type="button" class="btn btn-secondary" id="normal">Normal</button>
+                        <button type="button" class="btn btn-secondary" id="header">Header</button>
+                        <button type="button" class="btn btn-secondary" id="cookie">Cookie</button>
+                        <button type="button" class="btn btn-secondary" id="reset-cookie">Reset cookie</button>
+                        
+                    </div>
+                    <div class="form-group" style="text-align:center">
+                        <div>
+                            <h1 id="h1">
+
+                            </h1>
+                            <img src="" id="img">
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#normal").click(function () {
+                $.ajax({
+                    url: "/pet"
+                }).then(function (data) {
+                    $("#h1").text(data);
+                    console.log(data);
+                });
+                $.ajax({
+                    url: "/gif"
+                }).then(function (data) {
+                    $("#img").attr("src",data);
+                    console.log(data);
+                });
+            }
+            );
+            $("#header").click(function () {
+                $.ajax({
+                    url: "/pet",
+                    headers: {
+                        'dog-lover': 'always'
+                    }
+                }).then(function (data) {
+                    $("#h1").text(data);
+                    console.log(data);
+                });
+                $.ajax({
+                    url: "/gif",
+                    headers: {
+                        'dog-lover': 'always'
+                    }
+                }).then(function (data) {
+                    $("#img").attr("src",data);
+                    console.log(data);
+                });
+            }
+            );
+            $("#cookie").click(function () {
+                Cookies.set('dog_lover', 'always');
+                $.ajax({
+                    url: "/pet"
+                }).then(function (data) {
+                    $("#h1").text(data);
+                    console.log(data);
+                });
+                $.ajax({
+                    url: "/gif"
+                }).then(function (data) {
+                    $("#img").attr("src",data);
+                    console.log(data);
+                });
+            }
+            );
+            $("#reset-cookie").click(function () {
+                Cookies.remove('dog_lover');
+            }
+            );
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pets-app
+spec:
+  selector:
+    matchLabels:
+      app: pets
+      ver: app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pets
+        ver: app
+    spec:
+      containers:
+      - name: app
+        image: lukaszkaluzny/k8s-canary-on-ingress:web
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pets-app
+spec:
+  selector:
+    app: pets
+    ver: app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
